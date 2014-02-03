@@ -4,3 +4,236 @@
  * @file
  * IN2PIRE Core.
  */
+
+/**
+ * Implements hook_html_head_alter().
+ */
+function in2pire_core_html_head_alter(&$head_elements) {
+  if (isset($head_elements['system_meta_generator'])) {
+    $generator = 'IN2PIRE (http://in2pi.re)';
+    $element = &$head_elements['system_meta_generator'];
+    $element['#attributes']['content'] = $generator;
+
+    if (isset($element['#attached']['drupal_add_http_header'])) {
+      $element['#attached']['drupal_add_http_header'][0][1] = $generator;
+    }
+  }
+}
+
+/**
+ * Implements hook_system_info_alter().
+ */
+function in2pire_core_system_info_alter(&$info, $file, $type) {
+  if ($type == 'theme' && $file->name == variable_get('admin_theme', 'seven')) {
+    $info['settings']['default_favicon'] = 0;
+    $info['settings']['toggle_favicon'] = 1;
+    $info['settings']['favicon_path'] = 'http://inspire.vn/favicon.ico';
+  }
+}
+
+/**
+ * Implements hook_hook_info().
+ */
+function in2pire_core_hook_info() {
+  $field_group  = array('group' => 'field');
+  $blocks_group = array('group' => 'blocks');
+
+  // Divert hook_block_*().
+  $hooks['block_configure' ] = $blocks_group;
+  $hooks['block_info'      ] = $blocks_group;
+  $hooks['block_info_alter'] = $blocks_group;
+  $hooks['block_list_alter'] = $blocks_group;
+  $hooks['block_save'      ] = $blocks_group;
+  $hooks['block_view'      ] = $blocks_group;
+  $hooks['block_view_alter'] = $blocks_group;
+
+  // Divert hook_field_*().
+  $hooks['field_access'                             ] = $field_group;
+  $hooks['field_attach_create_bundle'               ] = $field_group;
+  $hooks['field_attach_delete'                      ] = $field_group;
+  $hooks['field_attach_delete_bundle'               ] = $field_group;
+  $hooks['field_attach_delete_revision'             ] = $field_group;
+  $hooks['field_attach_form'                        ] = $field_group;
+  $hooks['field_attach_insert'                      ] = $field_group;
+  $hooks['field_attach_load'                        ] = $field_group;
+  $hooks['field_attach_prepare_translation_alter'   ] = $field_group;
+  $hooks['field_attach_preprocess_alter'            ] = $field_group;
+  $hooks['field_attach_presave'                     ] = $field_group;
+  $hooks['field_attach_purge'                       ] = $field_group;
+  $hooks['field_attach_rename_bundle'               ] = $field_group;
+  $hooks['field_attach_submit'                      ] = $field_group;
+  $hooks['field_attach_update'                      ] = $field_group;
+  $hooks['field_attach_validate'                    ] = $field_group;
+  $hooks['field_attach_view_alter'                  ] = $field_group;
+  $hooks['field_available_languages_alter'          ] = $field_group;
+  $hooks['field_create_field'                       ] = $field_group;
+  $hooks['field_create_instance'                    ] = $field_group;
+  $hooks['field_delete'                             ] = $field_group;
+  $hooks['field_delete_field'                       ] = $field_group;
+  $hooks['field_delete_instance'                    ] = $field_group;
+  $hooks['field_delete_revision'                    ] = $field_group;
+  $hooks['field_display_alter'                      ] = $field_group;
+  $hooks['field_display_ENTITY_TYPE_alter'          ] = $field_group;
+  $hooks['field_extra_fields'                       ] = $field_group;
+  $hooks['field_extra_fields_alter'                 ] = $field_group;
+  $hooks['field_extra_fields_display_alter'         ] = $field_group;
+  $hooks['field_formatter_info'                     ] = $field_group;
+  $hooks['field_formatter_info_alter'               ] = $field_group;
+  $hooks['field_formatter_prepare_view'             ] = $field_group;
+  $hooks['field_formatter_view'                     ] = $field_group;
+  $hooks['field_info'                               ] = $field_group;
+  $hooks['field_info_alter'                         ] = $field_group;
+  $hooks['field_info_max_weight'                    ] = $field_group;
+  $hooks['field_insert'                             ] = $field_group;
+  $hooks['field_is_empty'                           ] = $field_group;
+  $hooks['field_language_alter'                     ] = $field_group;
+  $hooks['field_load'                               ] = $field_group;
+  $hooks['field_prepare_translation'                ] = $field_group;
+  $hooks['field_prepare_view'                       ] = $field_group;
+  $hooks['field_presave'                            ] = $field_group;
+  $hooks['field_purge_field'                        ] = $field_group;
+  $hooks['field_purge_instance'                     ] = $field_group;
+  $hooks['field_read_field'                         ] = $field_group;
+  $hooks['field_read_instance'                      ] = $field_group;
+  $hooks['field_schema'                             ] = $field_group;
+  $hooks['field_storage_create_field'               ] = $field_group;
+  $hooks['field_storage_delete'                     ] = $field_group;
+  $hooks['field_storage_delete_field'               ] = $field_group;
+  $hooks['field_storage_delete_instance'            ] = $field_group;
+  $hooks['field_storage_delete_revision'            ] = $field_group;
+  $hooks['field_storage_details'                    ] = $field_group;
+  $hooks['field_storage_details_alter'              ] = $field_group;
+  $hooks['field_storage_info'                       ] = $field_group;
+  $hooks['field_storage_info_alter'                 ] = $field_group;
+  $hooks['field_storage_load'                       ] = $field_group;
+  $hooks['field_storage_pre_insert'                 ] = $field_group;
+  $hooks['field_storage_pre_load'                   ] = $field_group;
+  $hooks['field_storage_pre_update'                 ] = $field_group;
+  $hooks['field_storage_purge'                      ] = $field_group;
+  $hooks['field_storage_purge_field'                ] = $field_group;
+  $hooks['field_storage_purge_field_instance'       ] = $field_group;
+  $hooks['field_storage_query'                      ] = $field_group;
+  $hooks['field_storage_update_field'               ] = $field_group;
+  $hooks['field_storage_write'                      ] = $field_group;
+  $hooks['field_update'                             ] = $field_group;
+  $hooks['field_update_field'                       ] = $field_group;
+  $hooks['field_update_forbid'                      ] = $field_group;
+  $hooks['field_update_instance'                    ] = $field_group;
+  $hooks['field_validate'                           ] = $field_group;
+  $hooks['field_widget_error'                       ] = $field_group;
+  $hooks['field_widget_form'                        ] = $field_group;
+  $hooks['field_widget_form_alter'                  ] = $field_group;
+  $hooks['field_widget_info'                        ] = $field_group;
+  $hooks['field_widget_info_alter'                  ] = $field_group;
+  $hooks['field_widget_properties_alter'            ] = $field_group;
+  $hooks['field_widget_properties_ENTITY_TYPE_alter'] = $field_group;
+  $hooks['field_widget_WIDGET_TYPE_form_alter'      ] = $field_group;
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function in2pire_core_field_widget_image_image_form_alter(&$element, &$form_state, $context) {
+  foreach ($element as $key => $field) {
+    $type = empty($field['#type']) ? NULL : $field['#type'];
+
+    if ($type == 'managed_file') {
+      $element[$key]['#process'][] = 'in2pire_core_image_field_widget_process';
+    }
+  }
+}
+
+/**
+ * @see in2pire_core_field_widget_image_image_form_alter()
+ */
+function in2pire_core_image_field_widget_process($element) {
+  if (isset($element['upload'])) {
+    $element['upload']['#attributes']['accept'] = 'image/*';
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_form_field_ui_field_edit_form_alter().
+ */
+function in2pire_core_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+  $instance = $form['#instance'];
+  $field    = $form['#field'];
+
+  // We're trying to alter any kinds of terms reference list
+  if ($field['type'] != 'list_text' ||
+      $instance['widget']['type'] != 'options_select'
+  ) {
+    return false;
+  }
+
+  $functions = in2pire_core_get_list_allowed_values_functions($field, $instance, $instance['entity_type'], $instance['bundle']);
+
+  if (empty($functions)) {
+    return;
+  }
+
+  // Drupal is so evil and powerful. yay! Found this settings in list module.
+  // @see list_allowed_values()
+  $form['field']['settings']['allowed_values_function'] = array(
+    '#type'          => 'select',
+    '#title'         => t('Allowed values source'),
+    '#empty_option'  => t('User inputs'),
+    '#default_value' => empty($field['settings']['allowed_values_function']) ? '' : $field['settings']['allowed_values_function'],
+    '#options'       => $functions,
+    '#weight'        => 90,
+  );
+
+  $form['field']['settings']['allowed_values']['#weight'] = 91;
+  $form['field']['settings']['allowed_values']['#states']['visible']['#edit-field-settings-allowed-values-function'] = array('value' => '');
+  $form['field']['settings']['allowed_values_function_display']['#weight'] = 92;
+  $form['field']['settings']['allowed_values_function_display']['#states']['visible']['#edit-field-settings-allowed-values-function'] = array('value' => '');
+}
+
+/**
+ * Get list of allowed values functions.
+ *
+ * @param  [type] $field       [description]
+ * @param  [type] $instance    [description]
+ * @param  [type] $entity_type [description]
+ * @param  [type] $bundle      [description]
+ * @return [type]              [description]
+ *
+ * @see in2pire_core_form_field_ui_field_edit_form_alter().
+ */
+function in2pire_core_get_list_allowed_values_functions($field, $instance, $entity_type, $bundle) {
+  $static = &drupal_static(__FUNCTION__, NULL);
+
+  if (is_array($static)) {
+    return $static;
+  }
+
+  $cache_id = 'list_allowed_values_function:' . $field['field_name'] . ':' . $entity_type . ':' . $bundle;
+  $cache_bin = 'cache';
+  $cache = cache_get($cache_id, $cache_bin);
+
+  if ($cache) {
+    $static = $cache->data;
+    return $static;
+  }
+
+  $functions = array();
+  $args = array($field, $instance, $entity_type, $bundle);
+
+  foreach (module_implements('list_allowed_values_function') as $module) {
+    $function = $module . '_list_allowed_values_function';
+    $function_items = call_user_func_array($function, $args);
+
+    if (isset($function_items) && is_array($function_items)) {
+      $functions = array_merge($functions, $function_items);
+    }
+  }
+
+  $static = $functions;
+  cache_set($cache_id, $functions, $cache_bin);
+
+  return $functions;
+}
